@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+int main(int argc, char* argv[]){
+  FILE *fp;
+  char* filename= argv[1];
+  unsigned char* bytes[8];
+  unsigned char* b;
+
+  if ((fp = fopen(filename, "rb")) == NULL){
+      printf("Unable to open file: %s\n", filename);
+      return 0;
+   }
+
+   fp = fopen(filename, "rb"); //opens fie in bytes
+
+  fread(bytes, 1, 8, fp);
+  int i=0;
+  for(i=0; i<8; i++){ //saves first 8 bytes
+    b=b+" "+bytes[i];
+  }
+
+
+  if(strstr(b, "47 49 46 38 39 61")|| strstr(b, "47 49 46 38 37 61")){ //checks to see if first 8 bytes contains these values,
+    printf("GIF FILE");                                                // and if it does, it returns the type file it is
+    return 0;
+
+  } else if(strstr(b, "7f 45 4C 46")){
+    printf("ELF FILE");
+    return 0;
+
+  } else if(strstr(b, "50 4B")){
+    printf("Zip File");
+    return 0;
+
+  } else if(strstr(b, "CA FE BA BE")){
+    printf("Java Class File");
+    return 0;
+
+  }else if(strstr(b, "89 50 4E 47 0D 0A 1A 0A")){
+    printf("PNG File");
+    return 0;
+
+  }else if(strstr(b, "25 50 44 46")){
+    printf("PDF File");
+    return 0;
+
+  }else {
+    printf("Unknown File");
+  }
+
+   fclose(fp);
